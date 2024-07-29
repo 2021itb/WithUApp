@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:with_u/ui/text_styles.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -10,6 +11,13 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'With U',
+          style: TextStyles.headingH4,
+        ),
+      ),
+    );
   }
 }
