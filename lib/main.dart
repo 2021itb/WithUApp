@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:with_u/presentation/screen/splash/splash_screen.dart';
+import 'package:with_u/router.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,13 +10,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
     );
   }
 }
