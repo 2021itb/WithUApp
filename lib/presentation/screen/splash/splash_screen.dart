@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:with_u/presentation/component/big_button.dart';
 import 'package:with_u/ui/color_styles.dart';
 import 'package:with_u/ui/text_styles.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -32,13 +33,14 @@ class SplashScreen extends StatelessWidget {
             const SizedBox(
               height: 200,
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 24),
               child: BigButton(
                   text: '시작하기',
-                  path: '/information',
+                  onTap: () => context.go('/information'),
                   backgroundColor: ColorStyles.lightest,
-                  textColor: ColorStyles.primary100),
+                  textColor: ColorStyles.primary100,
+              ),
             )
           ],
         ),

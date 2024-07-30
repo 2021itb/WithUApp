@@ -6,13 +6,13 @@ import 'package:with_u/ui/text_styles.dart';
 final class NameTextfield extends StatefulWidget {
   final String name;
   final String hintText;
-  final VoidCallback? onTap;
+  final ValueChanged<String>? onChanged;
 
   const NameTextfield({
     super.key,
     required this.name,
     required this.hintText,
-    this.onTap,
+    this.onChanged,
   });
 
   @override
@@ -42,6 +42,8 @@ final class _NameTextFieldState extends State<NameTextfield> {
           ? ColorStyles.primary100
           : ColorStyles.darkLightest;
     });
+
+    widget.onChanged?.call(_controller.text);
   }
 
   @override
@@ -73,7 +75,7 @@ final class _NameTextFieldState extends State<NameTextfield> {
                   vertical: 14,
                   horizontal: 16,
                 )),
-            onTap: widget.onTap,
+            onChanged: widget.onChanged,
           ),
         )
       ],
