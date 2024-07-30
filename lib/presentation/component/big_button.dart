@@ -4,14 +4,14 @@ import 'package:with_u/ui/text_styles.dart';
 
 class BigButton extends StatelessWidget {
   final String text;
-  final String path;
   final Color backgroundColor;
   final Color textColor;
+  final VoidCallback onTap;
 
   const BigButton({
     super.key,
     required this.text,
-    required this.path,
+    required this.onTap,
     required this.backgroundColor,
     required this.textColor,
   });
@@ -19,9 +19,7 @@ class BigButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        context.go(path);
-      },
+      onTap: onTap,
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
