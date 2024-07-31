@@ -1,8 +1,8 @@
-import 'data.dart';
+import 'data_dto.dart';
 
 class MessageDto {
   String? object;
-  List<Data>? data;
+  List<DataDto>? data;
   String? firstId;
   String? lastId;
   bool? hasMore;
@@ -12,7 +12,7 @@ class MessageDto {
   factory MessageDto.fromJson(Map<String, dynamic> json) => MessageDto(
         object: json['object'] as String?,
         data: (json['data'] as List<dynamic>?)
-            ?.map((e) => Data.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => DataDto.fromJson(e as Map<String, dynamic>))
             .toList(),
         firstId: json['first_id'] as String?,
         lastId: json['last_id'] as String?,

@@ -6,12 +6,14 @@ import 'package:with_u/ui/text_styles.dart';
 final class NameTextfield extends StatefulWidget {
   final String name;
   final String hintText;
+  final String initialValue; // 추가된 초기값 필드
   final ValueChanged<String>? onChanged;
 
   const NameTextfield({
     super.key,
     required this.name,
     required this.hintText,
+    required this.initialValue, // 초기값 필드 초기화
     this.onChanged,
   });
 
@@ -20,12 +22,13 @@ final class NameTextfield extends StatefulWidget {
 }
 
 final class _NameTextFieldState extends State<NameTextfield> {
-  final TextEditingController _controller = TextEditingController();
+  late final TextEditingController _controller;
   Color _borderColor = ColorStyles.darkLightest;
 
   @override
   void initState() {
     super.initState();
+    _controller = TextEditingController(text: widget.initialValue); // 초기값 설정
     _controller.addListener(_updateBorderColor);
   }
 
