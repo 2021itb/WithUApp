@@ -1,7 +1,7 @@
 import 'content.dart';
 import 'metadata.dart';
 
-class Data {
+class DataDto {
   String? id;
   String? object;
   int? createdAt;
@@ -13,7 +13,7 @@ class Data {
   List<dynamic>? attachments;
   Metadata? metadata;
 
-  Data({
+  DataDto({
     this.id,
     this.object,
     this.createdAt,
@@ -26,7 +26,7 @@ class Data {
     this.metadata,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory DataDto.fromJson(Map<String, dynamic> json) => DataDto(
         id: json['id'] as String?,
         object: json['object'] as String?,
         createdAt: json['created_at'] as int?,

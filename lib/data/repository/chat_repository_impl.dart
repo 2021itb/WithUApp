@@ -8,7 +8,23 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Future<List<Message>> getMessages() async {
-    final data = await _dataSource.getTextDto();
+    final data = await _dataSource.getDataDto();
     return data.map((e) => e.toMessage()).toList();
+  }
+
+  @override
+  Future<Message> getRecentMessage() async {
+    final data = await _dataSource.getDataDto();
+    return data.map((e) => e.toMessage()).toList()[0];
+  }
+
+  @override
+  Future<void> createRun() async {
+    await _dataSource.createRun();
+  }
+
+  @override
+  Future<void> sendMessage(String message) async {
+    await _dataSource.addMessageToTheThread(message);
   }
 }

@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:with_u/data/dto/message_dto/text.dart';
 import 'package:with_u/env/env.dart';
+
+import '../dto/message_dto/data_dto.dart';
 
 //추후 threadId 받을 수 있게 수정
 
@@ -22,7 +23,7 @@ class Api {
       return jsonDecode(response.body)['id'];
     } else {
       print('Failed to create thread. Status code: ${response.statusCode}');
-      return 'error';
+      throw Exception('error');
     }
   }
 
@@ -46,10 +47,10 @@ class Api {
         print(response.body);
       } else {
         print('Failed to send message. Status code: ${response.statusCode}');
-        print('Response: ${response.body}');
+        throw Exception('error');
       }
     } catch (e) {
-      print('Error occurred: $e');
+      throw Exception(e);
     }
   }
 
@@ -73,17 +74,41 @@ class Api {
         print(response.body);
       } else {
         print('Failed to create run. Status code: ${response.statusCode}');
-        print('Response: ${response.body}');
+        throw Exception('error');
       }
     } catch (e) {
       print('Error occurred: $e');
+      throw Exception(e);
     }
   }
 
   // Future<String> getMessage(String threadId) async {
   //   final url =
   //       Uri.parse('https://api.openai.com/v1/threads/$threadId/messages');
-  Future<List<TextDto>> getTextDto() async {
+  // Future<List<TextDto>> getTextDto() async {
+  //   final url = Uri.parse(
+  //       'https://api.openai.com/v1/threads/thread_XcMQNBdbH3HyneptBJYwyJRJ/messages');
+  //   final headers = {
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'Bearer ${Env.openAiApiKey}',
+  //     'OpenAI-Beta': 'assistants=v2',
+  //   };
+  //
+  //   final response = await http.get(url, headers: headers);
+  //   if (response.statusCode == 200) {
+  //     // return jsonDecode(response.body)['data'][0]['content'][0]['text']
+  //     //     ['value'];
+  //     final bytesData = utf8.decode(response.bodyBytes);
+  //     final data = jsonDecode(bytesData)['data'] as List;
+  //     // final text = data.map((e) => e['content']).map((e) => e['text']).toList();
+  //     final contentList = data.map((e) => e['content'] as List);
+  //     final text = contentList.expand((e) => e.map((e) => e['text']));
+  //     return text.map((e) => TextDto.fromJson(e)).toList();
+  //   } else {
+  //     return [];
+  //   }
+  // }
+  Future<List<DataDto>> getDataDto() async {
     final url = Uri.parse(
         'https://api.openai.com/v1/threads/thread_XcMQNBdbH3HyneptBJYwyJRJ/messages');
     final headers = {
@@ -99,11 +124,12 @@ class Api {
       final bytesData = utf8.decode(response.bodyBytes);
       final data = jsonDecode(bytesData)['data'] as List;
       // final text = data.map((e) => e['content']).map((e) => e['text']).toList();
-      final contentList = data.map((e) => e['content'] as List);
-      final text = contentList.expand((e) => e.map((e) => e['text']));
-      return text.map((e) => TextDto.fromJson(e)).toList();
+      // final contentList = data.map((e) => e['content'] as List);
+      // final text = contentList.expand((e) => e.map((e) => e['text']));
+
+      return data.map((e) => DataDto.fromJson(e)).toList();
     } else {
-      return [];
+      throw Exception('error');
     }
   }
 }
