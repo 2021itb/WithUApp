@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:with_u/data/dto/message_dto/text.dart';
 import 'package:with_u/env/env.dart';
 
 //추후 threadId 받을 수 있게 수정
@@ -82,7 +83,7 @@ class Api {
   // Future<String> getMessage(String threadId) async {
   //   final url =
   //       Uri.parse('https://api.openai.com/v1/threads/$threadId/messages');
-  Future<List<dynamic>> getMessage() async {
+  Future<List<TextDto>> getTextDto() async {
     final url = Uri.parse(
         'https://api.openai.com/v1/threads/thread_XcMQNBdbH3HyneptBJYwyJRJ/messages');
     final headers = {
@@ -93,11 +94,16 @@ class Api {
 
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
-    // return jsonDecode(response.body)['data'][0]['content'][0]['text']
-    //     ['value'];
-    return jsonDecode(response.body)['data'];
+      // return jsonDecode(response.body)['data'][0]['content'][0]['text']
+      //     ['value'];
+      final bytesData = utf8.decode(response.bodyBytes);
+      final data = jsonDecode(bytesData)['data'] as List;
+      // final text = data.map((e) => e['content']).map((e) => e['text']).toList();
+      final contentList = data.map((e) => e['content'] as List);
+      final text = contentList.expand((e) => e.map((e) => e['text']));
+      return text.map((e) => TextDto.fromJson(e)).toList();
     } else {
-    return [];
+      return [];
     }
   }
 }
