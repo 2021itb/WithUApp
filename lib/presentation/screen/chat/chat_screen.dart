@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:with_u/presentation/screen/chat/chat_view_model.dart';
 import 'package:with_u/ui/text_styles.dart';
 
 import '../../../ui/color_styles.dart';
@@ -13,6 +15,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<ChatViewModel>();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -20,6 +23,8 @@ class _ChatScreenState extends State<ChatScreen> {
           style: TextStyles.headingH4,
         ),
       ),
+      body: SingleChildScrollView(
+          child: Text(viewModel.messages.reversed.toString())),
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         child: Row(
@@ -44,8 +49,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   fillColor: ColorStyles.neutralLight,
                   border: InputBorder.none,
                   hintText: ' 위드유에게 이야기해 보세요',
-                  hintStyle: TextStyle(color: Colors.grey),
-                  enabledBorder: OutlineInputBorder(
+                  hintStyle: const TextStyle(color: Colors.grey),
+                  enabledBorder: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(71),
                     ),
@@ -53,7 +58,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       color: ColorStyles.neutralLight,
                     ), // 기본 아웃라인 색상
                   ),
-                  focusedBorder: OutlineInputBorder(
+                  focusedBorder: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(71),
                     ),
