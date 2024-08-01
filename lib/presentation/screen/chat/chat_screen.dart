@@ -54,6 +54,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final viewModel = context.watch<ChatViewModel>();
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.white,
         actions: [
           IconButton(
               onPressed: () {

@@ -12,7 +12,12 @@ class ChatViewModel with ChangeNotifier {
   ChatViewModel({
     required this.repository,
   }) {
-    showAllMessages();
+    init();
+  }
+
+  Future<void> init() async {
+    await showAllMessages();
+    await addFirstMessage();
   }
 
   Future<void> showAllMessages() async {
@@ -25,6 +30,11 @@ class ChatViewModel with ChangeNotifier {
     final data = await repository.getRecentMessage();
     messages.add(data);
     notifyListeners();
+  }
+
+  Future<void> addFirstMessage() async {
+    messages.add(Message(
+        message: '입력하신 개인정보는 더 좋은 답변을 드리기위해서만 활용됩니다 :)', role: 'assistant'));
   }
 
   Future<void> sendMessage(String message) async {
