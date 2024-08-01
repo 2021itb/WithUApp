@@ -9,7 +9,7 @@ import '../dto/message_dto/data_dto.dart';
 
 class Api {
   // String globalThreadId = '';
-  String globalThreadId = 'thread_8id3czTRQQFHnBGLz20QES7L';
+  String globalThreadId = 'thread_SSVjYXxBNVv7IHrFTnObMTYa';
 
   //thread id return
   Future<String> makeThread() async {
