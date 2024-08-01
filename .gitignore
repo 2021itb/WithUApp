@@ -50,4 +50,4 @@ app.*.map.json
 
 *.freezed.dart
 
-*.lock
+pubspec.lock

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:with_u/presentation/component/loading_container.dart';
 import 'package:with_u/presentation/component/question_container.dart';
 import 'package:with_u/presentation/component/response_container.dart';
 import 'package:with_u/presentation/screen/chat/chat_view_model.dart';
@@ -85,18 +86,16 @@ class _ChatScreenState extends State<ChatScreen> {
               });
 
               return Expanded(
-                child: ListView.builder(
-                  controller: _scrollController,
-                  itemCount: viewModel.messages.length,
-                  itemBuilder: (context, index) {
-                    final e = viewModel.messages[index];
+                child: ListView(controller: _scrollController, children: [
+                  ...viewModel.messages.map((e) {
                     if (e.role == 'user') {
                       return QuestionContainer(message: e);
                     } else {
                       return ResponseContainer(message: e);
                     }
-                  },
-                ),
+                  }),
+                  if (viewModel.isLoading) const LoadingContainer(),
+                ]),
               );
             },
           ),
