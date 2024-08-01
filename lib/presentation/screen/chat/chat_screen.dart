@@ -26,11 +26,19 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _scrollToBottom() {
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeOut,
-    );
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _scrollToBottom();
   }
 
   @override
@@ -52,17 +60,45 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: ListView(
-              controller: _scrollController,
-              children: viewModel.messages.map((e) {
-                if (e.role == 'user') {
-                  return QuestionContainer(message: e);
-                } else {
-                  return ResponseContainer(message: e);
+          // Expanded(
+          //   child: ListView.builder(
+          //     controller: _scrollController,
+          //     itemCount: viewModel.messages.length,
+          //     itemBuilder: (context, index) {
+          //       final e = viewModel.messages[index];
+          //       if (e.role == 'user') {
+          //         return QuestionContainer(message: e);
+          //       } else {
+          //         return ResponseContainer(message: e);
+          //       }
+          //     },
+          //   ),
+          // ),
+          Consumer<ChatViewModel>(
+            builder: (context, viewModel, child) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (_scrollController.hasClients) {
+                  _scrollController.jumpTo(
+                    _scrollController.position.maxScrollExtent,
+                  );
                 }
-              }).toList(),
-            ),
+              });
+
+              return Expanded(
+                child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: viewModel.messages.length,
+                  itemBuilder: (context, index) {
+                    final e = viewModel.messages[index];
+                    if (e.role == 'user') {
+                      return QuestionContainer(message: e);
+                    } else {
+                      return ResponseContainer(message: e);
+                    }
+                  },
+                ),
+              );
+            },
           ),
           BottomAppBar(
             color: Colors.white,
@@ -86,8 +122,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         onTap: () {
                           viewModel.sendMessage(_controller.text);
                           _controller.clear();
-                          const Duration(milliseconds: 1000);
-                          _scrollToBottom();
+                          // const Duration(milliseconds: 1000);
+                          FocusScope.of(context).unfocus();
                         },
                       ),
                       filled: true,
@@ -119,7 +155,6 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ],
       ),
-      // bottomNavigationBar: ,
       resizeToAvoidBottomInset: true,
     );
   }
