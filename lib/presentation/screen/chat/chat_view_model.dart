@@ -4,13 +4,20 @@ import 'package:with_u/data/repository/chat_repository.dart';
 
 class ChatViewModel with ChangeNotifier {
   final ChatRepository repository;
+  bool isLoading = false;
+  bool isEmergency = false;
 
   List<Message> messages = [];
 
   ChatViewModel({
     required this.repository,
   }) {
-    showAllMessages();
+    init();
+  }
+
+  Future<void> init() async {
+    await showAllMessages();
+    await addFirstMessage();
   }
 
   Future<void> showAllMessages() async {
@@ -26,14 +33,23 @@ class ChatViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> addFirstMessage() async {
+    messages.insert(
+        0,
+        Message(
+            message: '입력하신 개인정보는 더 좋은 답변을 드리기위해서만 활용됩니다 :)',
+            role: 'assistant'));
+  }
+
   Future<void> sendMessage(String message) async {
     await repository.sendMessage(message);
     messages.insert(0, Message(message: message, role: 'user'));
-    // messages.add(Message(message: message, role: 'user'));
+    isLoading = true;
+    isEmergency = false;
     notifyListeners();
-    print(messages);
     await repository.createRun();
     await showRecentMessage();
+    isLoading = false;
     notifyListeners();
   }
 }
