@@ -26,11 +26,13 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _scrollToTop() {
-    _scrollController.animateTo(
-      0,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
     // if (_scrollController.hasClients) {
     //   _scrollController.jumpTo(
     //     _scrollController.position.minScrollExtent,
