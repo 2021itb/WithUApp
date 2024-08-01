@@ -87,8 +87,11 @@ class InformationViewModel extends ChangeNotifier {
         behaviorPatterns: _state.behaviorPatterns,
         dailyRoutine: _state.dailyRoutine,
       );
-      // await _repository.createUserInfo(userInfo);
-      await _repository.updateUserInfo(0, userInfo); // Assuming index 0
+      if ((await _repository.getAllUserInfo()).isEmpty) {
+        await _repository.createUserInfo(userInfo);
+      } else {
+        await _repository.updateUserInfo(0, userInfo); // Assuming index 0
+      }
       print(await _repository.getUserInfo(0));
       _state = _state.copyWith(isSaving: false);
     } catch (e) {
