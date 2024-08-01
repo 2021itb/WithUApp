@@ -1,22 +1,35 @@
 import 'package:flutter/foundation.dart';
 import 'package:with_u/data/dto/user_info.dart';
+import 'package:with_u/data/repository/chat_repository.dart';
 import 'package:with_u/data/repository/user_info_repository.dart';
 import 'package:with_u/presentation/screen/information/information_ui_state.dart';
 
 class InformationViewModel extends ChangeNotifier {
-  final UserInfoRepository _repository;
+  final UserInfoRepository _userInfoRepository;
+  final ChatRepository _chatRepository;
   InformationUiState _state = const InformationUiState();
 
   InformationUiState get state => _state;
 
-  InformationViewModel(this._repository) {
-    print('awefawe');
+  InformationViewModel(
+    this._userInfoRepository,
+    this._chatRepository,
+  ) {
     _fetchUserInfo();
+  }
+
+  Future<void> sendMessage(String message) async {
+    await _chatRepository.sendMessage(message);
+  }
+
+  Future<void> makeThread() async {
+    await _chatRepository.makeThread();
   }
 
   Future<void> _fetchUserInfo() async {
     try {
-      final userInfo = await _repository.getUserInfo(0); // Assuming index 0
+      final userInfo =
+          await _userInfoRepository.getUserInfo(0); // Assuming index 0
       if (userInfo != null) {
         print('hi');
         _state = _state.copyWith(
@@ -87,12 +100,13 @@ class InformationViewModel extends ChangeNotifier {
         behaviorPatterns: _state.behaviorPatterns,
         dailyRoutine: _state.dailyRoutine,
       );
-      if ((await _repository.getAllUserInfo()).isEmpty) {
-        await _repository.createUserInfo(userInfo);
+      if ((await _userInfoRepository.getAllUserInfo()).isEmpty) {
+        await _userInfoRepository.createUserInfo(userInfo);
       } else {
-        await _repository.updateUserInfo(0, userInfo); // Assuming index 0
+        await _userInfoRepository.updateUserInfo(
+            0, userInfo); // Assuming index 0
       }
-      print(await _repository.getUserInfo(0));
+      print(await _userInfoRepository.getUserInfo(0));
       _state = _state.copyWith(isSaving: false);
     } catch (e) {
       _state = _state.copyWith(
