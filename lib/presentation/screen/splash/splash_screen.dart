@@ -20,18 +20,19 @@ class SplashScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  'always',
-                  style: TextStyles.headingH2
+                  'always ',
+                  style: TextStyles.headingH1
                       .copyWith(color: ColorStyles.lightest),
                 ),
                 Text(
                   'With U!',
-                  style: TextStyles.headingH1.copyWith(color: Colors.black),
+                  style: TextStyles.headingH1
+                      .copyWith(color: Colors.black, fontSize: 30),
                 ),
               ],
             ),
             const SizedBox(
-              height: 200,
+              height: 150,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
