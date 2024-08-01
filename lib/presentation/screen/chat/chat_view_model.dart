@@ -34,18 +34,19 @@ class ChatViewModel with ChangeNotifier {
   }
 
   Future<void> addFirstMessage() async {
-    messages.add(Message(
-        message: '입력하신 개인정보는 더 좋은 답변을 드리기위해서만 활용됩니다 :)', role: 'assistant'));
+    messages.insert(
+        0,
+        Message(
+            message: '입력하신 개인정보는 더 좋은 답변을 드리기위해서만 활용됩니다 :)',
+            role: 'assistant'));
   }
 
   Future<void> sendMessage(String message) async {
-    await repository.sendMessage(isEmergency ? '(긴급) $message' : message);
-    messages.add(Message(message: message, role: 'user'));
-    isLoading = true;
-    isEmergency = false;
     await repository.sendMessage(message);
     messages.insert(0, Message(message: message, role: 'user'));
-    // messages.add(Message(message: message, role: 'user'));
+    isLoading = true;
+    isEmergency = false;
+
     notifyListeners();
     await repository.createRun();
     await showRecentMessage();

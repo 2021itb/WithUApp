@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:with_u/presentation/component/loading_container.dart';
 import 'package:with_u/presentation/component/question_container.dart';
 import 'package:with_u/presentation/component/response_container.dart';
 import 'package:with_u/presentation/screen/chat/chat_view_model.dart';
@@ -27,11 +28,13 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _scrollToTop() {
-    _scrollController.animateTo(
-      0,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
     // if (_scrollController.hasClients) {
     //   _scrollController.jumpTo(
     //     _scrollController.position.minScrollExtent,
@@ -79,26 +82,24 @@ class _ChatScreenState extends State<ChatScreen> {
           Consumer<ChatViewModel>(
             builder: (context, viewModel, child) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                _scrollToTop();
+                if (_scrollController.hasClients) {
+                  _scrollController.jumpTo(
+                    _scrollController.position.maxScrollExtent,
+                  );
+                }
               });
 
               return Expanded(
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    reverse: true,
-                    itemCount: viewModel.messages.length,
-                    itemBuilder: (context, index) {
-                      final e = viewModel.messages[index];
-                      if (e.role == 'user') {
-                        return QuestionContainer(message: e);
-                      } else {
-                        return ResponseContainer(message: e);
-                      }
-                    },
-                  ),
-                ),
+                child: ListView(controller: _scrollController, children: [
+                  ...viewModel.messages.map((e) {
+                    if (e.role == 'user') {
+                      return QuestionContainer(message: e);
+                    } else {
+                      return ResponseContainer(message: e);
+                    }
+                  }),
+                  if (viewModel.isLoading) const LoadingContainer(),
+                ]),
               );
             },
           ),
