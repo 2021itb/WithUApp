@@ -25,9 +25,13 @@ class ChatViewModel with ChangeNotifier {
     final data = await repository.getMessages();
 
     messages = data
-        .where((e) => e.message.startsWith('이름:') == false)
-        .map((e) =>
-            Message(message: e.message.replaceAll(regex, ''), role: e.role))
+        .where((e) => !e.message.startsWith('이름:'))
+        .map((e) => Message(
+      message: e.message
+          .replaceAll(regex, '')
+          .replaceAll('(짧게)', ''),
+      role: e.role,
+    ))
         .toList();
     notifyListeners();
   }
@@ -49,7 +53,7 @@ class ChatViewModel with ChangeNotifier {
   }
 
   Future<void> sendMessage(String message) async {
-    await repository.sendMessage(isEmergency ? '(긴급) $message' : message);
+    await repository.sendMessage(isEmergency ? '(짧게) $message' : message);
     messages.insert(0, Message(message: message, role: 'user'));
     isLoading = true;
     isEmergency = false;
