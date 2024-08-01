@@ -64,8 +64,17 @@ class Api {
       'Content-Type': 'application/json',
       'OpenAI-Beta': 'assistants=v2',
     };
-    final body = jsonEncode(
-        {'assistant_id': 'asst_JOEEKN5NfmSNQXOnaRrRe6wC', 'instructions': ''});
+    final body = jsonEncode({
+      'assistant_id': 'asst_JOEEKN5NfmSNQXOnaRrRe6wC',
+      'instructions': '',
+      'stream': true,
+      // 'tools': [
+      //   {
+      //     'type': 'file_search',
+      //     'file_search': ,
+      //   }
+      // ]
+    });
 
     try {
       final response = await http.post(url, headers: headers, body: body);

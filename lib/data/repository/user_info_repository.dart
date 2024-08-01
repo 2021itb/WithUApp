@@ -13,14 +13,18 @@ class UserInfoRepository {
   Future<void> createUserInfo(UserInfo userInfo) async {
     final box = await _openBox();
     await box.add(userInfo);
-    await box.close();
+  }
+
+  // Read a UserInfo
+  Future<UserInfo?> getUserInfo(int index) async {
+    final box = await _openBox();
+    return box.get(index);
   }
 
   // Read all UserInfo
   Future<List<UserInfo>> getAllUserInfo() async {
     final box = await _openBox();
     final userInfoList = box.values.toList();
-    await box.close();
     return userInfoList;
   }
 
@@ -28,13 +32,11 @@ class UserInfoRepository {
   Future<void> updateUserInfo(int index, UserInfo userInfo) async {
     final box = await _openBox();
     await box.putAt(index, userInfo);
-    await box.close();
   }
 
   // Delete a UserInfo
   Future<void> deleteUserInfo(int index) async {
     final box = await _openBox();
     await box.deleteAt(index);
-    await box.close();
   }
 }
