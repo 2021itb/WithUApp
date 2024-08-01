@@ -16,12 +16,12 @@ void main() async {
   Hive.registerAdapter(UserInfoAdapter());
 
   // 저장된 유저 인포 출력 테스트.
-  final box = await Hive.openBox('userInfoBox');
-  box.values.toList().forEach((value) {
-    if (value is UserInfo) {
-      print(value.name);
-    }
-  });
+  // final box = await Hive.openBox('userInfoBox');
+  // box.values.toList().forEach((value) {
+  //   if (value is UserInfo) {
+  //     print(value.name);
+  //   }
+  // });
 
   runApp(const MyApp());
 }

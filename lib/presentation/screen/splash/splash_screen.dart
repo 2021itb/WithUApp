@@ -34,12 +34,12 @@ class SplashScreen extends StatelessWidget {
               height: 200,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: BigButton(
-                  text: '시작하기',
-                  onTap: () => context.go('/information'),
-                  backgroundColor: ColorStyles.lightest,
-                  textColor: ColorStyles.primary100,
+                text: '시작하기',
+                onTap: () => context.go('/information'),
+                backgroundColor: ColorStyles.lightest,
+                textColor: ColorStyles.primary100,
               ),
             )
           ],
