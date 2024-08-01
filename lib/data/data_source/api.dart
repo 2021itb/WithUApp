@@ -68,12 +68,9 @@ class Api {
       'assistant_id': 'asst_JOEEKN5NfmSNQXOnaRrRe6wC',
       'instructions': '',
       'stream': true,
-      // 'tools': [
-      //   {
-      //     'type': 'file_search',
-      //     'file_search': ,
-      //   }
-      // ]
+      'tools': [
+        {'type': 'file_search'}
+      ],
     });
 
     try {
