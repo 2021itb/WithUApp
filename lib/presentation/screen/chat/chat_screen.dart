@@ -139,7 +139,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       filled: true,
                       fillColor: ColorStyles.neutralLight,
                       border: InputBorder.none,
-                      hintText: ' 위드유에게 이야기해 보세요',
+                      hintText: viewModel.isEmergency
+                          ? '긴급. 빠른답변이 생성됩니다.'
+                          : ' 위드유에게 이야기해 보세요 :)',
                       hintStyle: const TextStyle(color: Colors.grey),
                       enabledBorder: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(
