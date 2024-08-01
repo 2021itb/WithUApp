@@ -32,7 +32,7 @@ class Api {
   //       Uri.parse('https://api.openai.com/v1/threads/$threadId/messages');
   Future<void> addMessageToTheThread(String message) async {
     final url = Uri.parse(
-        'https://api.openai.com/v1/threads/thread_XcMQNBdbH3HyneptBJYwyJRJ/messages');
+        'https://api.openai.com/v1/threads/thread_8id3czTRQQFHnBGLz20QES7L/messages');
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${Env.openAiApiKey}',
@@ -58,7 +58,7 @@ class Api {
   //   final url = Uri.parse('https://api.openai.com/v1/threads/$threadId/runs');
   Future<void> createRun() async {
     final url = Uri.parse(
-        'https://api.openai.com/v1/threads/thread_XcMQNBdbH3HyneptBJYwyJRJ/runs');
+        'https://api.openai.com/v1/threads/thread_8id3czTRQQFHnBGLz20QES7L/runs');
     final headers = {
       'Authorization': 'Bearer ${Env.openAiApiKey}',
       'Content-Type': 'application/json',
@@ -68,9 +68,7 @@ class Api {
       'assistant_id': 'asst_JOEEKN5NfmSNQXOnaRrRe6wC',
       'instructions': '',
       'stream': true,
-      'tools': [
-        {'type': 'file_search'}
-      ],
+      // 'tool_choice': {'type': 'file_search'}
     });
 
     try {
@@ -116,7 +114,7 @@ class Api {
   // }
   Future<List<DataDto>> getDataDto() async {
     final url = Uri.parse(
-        'https://api.openai.com/v1/threads/thread_XcMQNBdbH3HyneptBJYwyJRJ/messages');
+        'https://api.openai.com/v1/threads/thread_8id3czTRQQFHnBGLz20QES7L/messages');
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${Env.openAiApiKey}',
