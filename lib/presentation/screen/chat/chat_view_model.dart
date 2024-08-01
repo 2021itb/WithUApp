@@ -4,6 +4,7 @@ import 'package:with_u/data/repository/chat_repository.dart';
 
 class ChatViewModel with ChangeNotifier {
   final ChatRepository repository;
+  RegExp regex = RegExp(r'【.*?】');
   bool isLoading = false;
   bool isEmergency = false;
 
@@ -22,14 +23,20 @@ class ChatViewModel with ChangeNotifier {
 
   Future<void> showAllMessages() async {
     final data = await repository.getMessages();
-    // messages = data.reversed.toList();
-    messages = data.toList();
+
+    messages = data
+        .where((e) => e.message.startsWith('이름:') == false)
+        .map((e) =>
+            Message(message: e.message.replaceAll(regex, ''), role: e.role))
+        .toList();
     notifyListeners();
   }
 
   Future<void> showRecentMessage() async {
     final data = await repository.getRecentMessage();
-    messages.insert(0, data);
+    final recentData =
+        data.copyWith(message: data.message.replaceAll(regex, ''));
+    messages.insert(0, recentData);
     notifyListeners();
   }
 
@@ -42,7 +49,7 @@ class ChatViewModel with ChangeNotifier {
   }
 
   Future<void> sendMessage(String message) async {
-    await repository.sendMessage(message);
+    await repository.sendMessage(isEmergency ? '(긴급) $message' : message);
     messages.insert(0, Message(message: message, role: 'user'));
     isLoading = true;
     isEmergency = false;
