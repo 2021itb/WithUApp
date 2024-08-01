@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:with_u/presentation/component/loading_container.dart';
 import 'package:with_u/presentation/component/question_container.dart';
@@ -53,6 +54,16 @@ class _ChatScreenState extends State<ChatScreen> {
     final viewModel = context.watch<ChatViewModel>();
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                context.push('/information');
+              },
+              icon: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Image.asset('assets/img.png'),
+              ))
+        ],
         centerTitle: true,
         title: Text(
           'With U',
@@ -61,20 +72,6 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: Column(
         children: [
-          // Expanded(
-          //   child: ListView.builder(
-          //     controller: _scrollController,
-          //     itemCount: viewModel.messages.length,
-          //     itemBuilder: (context, index) {
-          //       final e = viewModel.messages[index];
-          //       if (e.role == 'user') {
-          //         return QuestionContainer(message: e);
-          //       } else {
-          //         return ResponseContainer(message: e);
-          //       }
-          //     },
-          //   ),
-          // ),
           Consumer<ChatViewModel>(
             builder: (context, viewModel, child) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -104,9 +101,15 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Row(
               children: [
                 IconButton(
-                  icon: Image.asset('assets/more_options.png'),
+                  icon: Icon(
+                    Icons.error_outline,
+                    color: viewModel.isEmergency
+                        ? Colors.redAccent
+                        : ColorStyles.primary100,
+                  ),
                   onPressed: () {
-                    // 플러스 버튼 클릭 시 실행될 함수
+                    viewModel.isEmergency = !viewModel.isEmergency;
+                    setState(() {});
                   },
                 ),
                 Expanded(

@@ -5,6 +5,7 @@ import 'package:with_u/data/repository/chat_repository.dart';
 class ChatViewModel with ChangeNotifier {
   final ChatRepository repository;
   bool isLoading = false;
+  bool isEmergency = false;
 
   List<Message> messages = [];
 
@@ -27,11 +28,11 @@ class ChatViewModel with ChangeNotifier {
   }
 
   Future<void> sendMessage(String message) async {
-    await repository.sendMessage(message);
+    await repository.sendMessage(isEmergency ? '(긴급) $message' : message);
     messages.add(Message(message: message, role: 'user'));
     isLoading = true;
+    isEmergency = false;
     notifyListeners();
-    print(messages);
     await repository.createRun();
     await showRecentMessage();
     isLoading = false;
