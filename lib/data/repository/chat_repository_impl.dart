@@ -6,6 +6,16 @@ import 'package:with_u/data/repository/chat_repository.dart';
 class ChatRepositoryImpl implements ChatRepository {
   final _dataSource = Api();
 
+  // @override
+  // Future<void> initializeThreadId() async {
+  //   await _dataSource.initializeThreadId();
+  // }
+
+  @override
+  Future<void> makeThread() async {
+    await _dataSource.makeThread();
+  }
+
   @override
   Future<List<Message>> getMessages() async {
     final data = await _dataSource.getDataDto();

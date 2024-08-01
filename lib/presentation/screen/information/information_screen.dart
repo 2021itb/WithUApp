@@ -3,6 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:with_u/data/repository/chat_repository.dart';
+import 'package:with_u/data/repository/chat_repository_impl.dart';
 import 'package:with_u/data/repository/user_info_repository.dart';
 import 'package:with_u/presentation/component/big_button.dart';
 import 'package:with_u/presentation/component/name_textfield.dart';
@@ -16,8 +18,9 @@ class InformationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) =>
-          InformationViewModel(context.read<UserInfoRepository>()),
+      create: (context) => InformationViewModel(
+          context.read<UserInfoRepository>(),
+          context.read<ChatRepositoryImpl>()),
       child: _InformationScreenContent(),
     );
   }
@@ -78,8 +81,12 @@ class _InformationScreenContent extends StatelessWidget {
                   ),
                 BigButton(
                   text: '저장하기',
-                  onTap: () {
+                  onTap: () async {
                     // if (state.isAllFieldsFilled) {
+                    // sendMessage
+                    await viewModel.sendMessage(
+                      '이름: ${state.name}, 성별: ${state.gender}, 나이: ${state.age}, 발달장애 진단명: ${state.diagnosis}, 현재 복용 중인 약물: ${state.medication}, 주로 발생하는 문제 행동: ${state.behavioralIssues}, 행동 패턴 및 트리거 요인: ${state.behaviorPatterns}, 일상 생활 패턴: ${state.dailyRoutine}',
+                    );
                     context
                         .read<InformationViewModel>()
                         .saveUserInfo()
