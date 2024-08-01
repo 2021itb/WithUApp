@@ -46,7 +46,6 @@ class ChatViewModel with ChangeNotifier {
     messages.insert(0, Message(message: message, role: 'user'));
     isLoading = true;
     isEmergency = false;
-
     notifyListeners();
     await repository.createRun();
     await showRecentMessage();

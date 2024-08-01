@@ -82,24 +82,26 @@ class _ChatScreenState extends State<ChatScreen> {
           Consumer<ChatViewModel>(
             builder: (context, viewModel, child) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (_scrollController.hasClients) {
-                  _scrollController.jumpTo(
-                    _scrollController.position.maxScrollExtent,
-                  );
-                }
+                _scrollToTop();
               });
 
               return Expanded(
-                child: ListView(controller: _scrollController, children: [
-                  ...viewModel.messages.map((e) {
-                    if (e.role == 'user') {
-                      return QuestionContainer(message: e);
-                    } else {
-                      return ResponseContainer(message: e);
-                    }
-                  }),
-                  if (viewModel.isLoading) const LoadingContainer(),
-                ]),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: ListView(
+                      reverse: true,
+                      controller: _scrollController,
+                      children: [
+                        if (viewModel.isLoading) const LoadingContainer(),
+                        ...viewModel.messages.map((e) {
+                          if (e.role == 'user') {
+                            return QuestionContainer(message: e);
+                          } else {
+                            return ResponseContainer(message: e);
+                          }
+                        }),
+                      ]),
+                ),
               );
             },
           ),
