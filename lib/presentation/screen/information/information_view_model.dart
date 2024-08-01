@@ -18,6 +18,10 @@ class InformationViewModel extends ChangeNotifier {
     _fetchUserInfo();
   }
 
+  Future<void> addMessageToTheThread(String message) async {
+    await _chatRepository.sendMessage(message);
+  }
+
   Future<void> sendMessage(String message) async {
     await _chatRepository.sendMessage(message);
   }
