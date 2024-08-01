@@ -28,8 +28,12 @@ final class _NameTextFieldState extends State<NameTextfield> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.initialValue); // 초기값 설정
-    _controller.addListener(_updateBorderColor);
+    _controller = TextEditingController(); // 먼저 초기화
+    Future.delayed(const Duration(milliseconds: 500), () {
+      _controller.text = widget.initialValue ?? ''; // 초기값 설정
+      _controller.addListener(_updateBorderColor);
+      setState(() {}); // 상태를 갱신하여 위젯을 다시 빌드합니다.
+    });
   }
 
   @override
