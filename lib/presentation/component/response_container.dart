@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:with_u/data/model/message.dart';
 import 'package:with_u/ui/color_styles.dart';
 import 'package:with_u/ui/text_styles.dart';
@@ -31,7 +32,7 @@ class ResponseContainer extends StatelessWidget {
                   'With U',
                   style: TextStyles.headingH5,
                 ),
-                Text(message.message),
+                MarkdownBody(data: message.message),
               ],
             ),
           ),
