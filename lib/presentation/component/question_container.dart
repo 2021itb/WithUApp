@@ -15,7 +15,8 @@ class QuestionContainer extends StatelessWidget {
         alignment: Alignment.centerRight,
         child: Container(
           constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width * 0.75, // 최대 너비를 200으로 설정
+            maxWidth:
+                MediaQuery.of(context).size.width * 0.75, // 최대 너비를 200으로 설정
           ),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
