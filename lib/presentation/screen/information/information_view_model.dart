@@ -19,7 +19,7 @@ class InformationViewModel extends ChangeNotifier {
   }
 
   Future<void> addMessageToTheThread(String message) async {
-    await _chatRepository.sendMessage(message);
+    await _chatRepository.addMessageToTheThread(message);
   }
 
   Future<void> sendMessage(String message) async {
