@@ -8,6 +8,9 @@ import '../dto/message_dto/data_dto.dart';
 //추후 threadId 받을 수 있게 수정
 
 class Api {
+  // String globalThreadId = '';
+  String globalThreadId = 'thread_8id3czTRQQFHnBGLz20QES7L';
+
   //thread id return
   Future<String> makeThread() async {
     final url = Uri.parse('https://api.openai.com/v1/threads');
@@ -31,8 +34,8 @@ class Api {
   //   final url =
   //       Uri.parse('https://api.openai.com/v1/threads/$threadId/messages');
   Future<void> addMessageToTheThread(String message) async {
-    final url = Uri.parse(
-        'https://api.openai.com/v1/threads/thread_8id3czTRQQFHnBGLz20QES7L/messages');
+    final url =
+        Uri.parse('https://api.openai.com/v1/threads/$globalThreadId/messages');
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${Env.openAiApiKey}',
@@ -57,8 +60,8 @@ class Api {
   // Future<void> createRun(String threadId) async {
   //   final url = Uri.parse('https://api.openai.com/v1/threads/$threadId/runs');
   Future<void> createRun() async {
-    final url = Uri.parse(
-        'https://api.openai.com/v1/threads/thread_8id3czTRQQFHnBGLz20QES7L/runs');
+    final url =
+        Uri.parse('https://api.openai.com/v1/threads/$globalThreadId/runs');
     final headers = {
       'Authorization': 'Bearer ${Env.openAiApiKey}',
       'Content-Type': 'application/json',
@@ -113,8 +116,8 @@ class Api {
   //   }
   // }
   Future<List<DataDto>> getDataDto() async {
-    final url = Uri.parse(
-        'https://api.openai.com/v1/threads/thread_8id3czTRQQFHnBGLz20QES7L/messages');
+    final url =
+        Uri.parse('https://api.openai.com/v1/threads/$globalThreadId/messages');
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ${Env.openAiApiKey}',

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:with_u/presentation/component/loading_container.dart';
 import 'package:with_u/presentation/component/question_container.dart';
 import 'package:with_u/presentation/component/response_container.dart';
 import 'package:with_u/presentation/screen/chat/chat_view_model.dart';
@@ -23,28 +22,32 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    // 위젯이 빌드된 후 스크롤을 아래로 이동
-    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+    // 위젯이 빌드된 후 스크롤을 위로 이동
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToTop());
   }
 
-  void _scrollToBottom() {
-    if (_scrollController.hasClients) {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
-    }
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+    // if (_scrollController.hasClients) {
+    //   _scrollController.jumpTo(
+    //     _scrollController.position.minScrollExtent,
+    //   );
+    // }
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _scrollToBottom();
+    _scrollToTop();
   }
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -76,24 +79,26 @@ class _ChatScreenState extends State<ChatScreen> {
           Consumer<ChatViewModel>(
             builder: (context, viewModel, child) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (_scrollController.hasClients) {
-                  _scrollController.jumpTo(
-                    _scrollController.position.maxScrollExtent,
-                  );
-                }
+                _scrollToTop();
               });
 
               return Expanded(
-                child: ListView(controller: _scrollController, children: [
-                  ...viewModel.messages.map((e) {
-                    if (e.role == 'user') {
-                      return QuestionContainer(message: e);
-                    } else {
-                      return ResponseContainer(message: e);
-                    }
-                  }),
-                  if (viewModel.isLoading) const LoadingContainer(),
-                ]),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    reverse: true,
+                    itemCount: viewModel.messages.length,
+                    itemBuilder: (context, index) {
+                      final e = viewModel.messages[index];
+                      if (e.role == 'user') {
+                        return QuestionContainer(message: e);
+                      } else {
+                        return ResponseContainer(message: e);
+                      }
+                    },
+                  ),
+                ),
               );
             },
           ),
@@ -125,7 +130,6 @@ class _ChatScreenState extends State<ChatScreen> {
                         onTap: () {
                           viewModel.sendMessage(_controller.text);
                           _controller.clear();
-                          // const Duration(milliseconds: 1000);
                           FocusScope.of(context).unfocus();
                         },
                       ),

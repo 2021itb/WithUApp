@@ -22,13 +22,14 @@ class ChatViewModel with ChangeNotifier {
 
   Future<void> showAllMessages() async {
     final data = await repository.getMessages();
-    messages = data.reversed.toList();
+    // messages = data.reversed.toList();
+    messages = data.toList();
     notifyListeners();
   }
 
   Future<void> showRecentMessage() async {
     final data = await repository.getRecentMessage();
-    messages.add(data);
+    messages.insert(0, data);
     notifyListeners();
   }
 
@@ -42,6 +43,9 @@ class ChatViewModel with ChangeNotifier {
     messages.add(Message(message: message, role: 'user'));
     isLoading = true;
     isEmergency = false;
+    await repository.sendMessage(message);
+    messages.insert(0, Message(message: message, role: 'user'));
+    // messages.add(Message(message: message, role: 'user'));
     notifyListeners();
     await repository.createRun();
     await showRecentMessage();

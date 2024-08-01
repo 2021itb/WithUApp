@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:with_u/data/repository/chat_repository_impl.dart';
 import 'package:with_u/router.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<ChatRepositoryImpl>(
+          create: (context) => ChatRepositoryImpl(),
+        ),
         Provider<UserInfoRepository>(
           create: (context) => UserInfoRepository(),
         ),
