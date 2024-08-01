@@ -38,4 +38,9 @@ class UserInfo extends HiveObject {
     required this.behaviorPatterns,
     required this.dailyRoutine,
   });
+
+  @override
+  String toString() {
+    return 'UserInfo{name: $name, gender: $gender, age: $age, diagnosis: $diagnosis, medication: $medication, behavioralIssues: $behavioralIssues, behaviorPatterns: $behaviorPatterns, dailyRoutine: $dailyRoutine}';
+  }
 }

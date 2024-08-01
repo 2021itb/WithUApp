@@ -6,14 +6,14 @@ import 'package:with_u/ui/text_styles.dart';
 final class NameTextfield extends StatefulWidget {
   final String name;
   final String hintText;
-  final String initialValue; // 추가된 초기값 필드
+  final String? initialValue; // 추가된 초기값 필드
   final ValueChanged<String>? onChanged;
 
   const NameTextfield({
     super.key,
     required this.name,
     required this.hintText,
-    required this.initialValue, // 초기값 필드 초기화
+    this.initialValue, // 초기값 필드 초기화
     this.onChanged,
   });
 
