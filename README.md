@@ -22,7 +22,7 @@
 
 <img alt="Untitled123123" src="https://github.com/user-attachments/assets/53df649d-bbe0-471a-aec0-5c3c5ca13d0f">
 
-## 기능
+## 기능 시연
 ### 전문지식을 가진 챗봇과 대화
 https://github.com/user-attachments/assets/b3696f15-5542-432b-9cdb-84ad3ab3b4f1
 
